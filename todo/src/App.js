@@ -11,7 +11,7 @@ import EditTodo from "./components/editTodo";
 
 function App() {
   return (
-    <div className="app">
+    <div className="App">
       <Sidebar>
         <User />
         <AddNewTodo />
