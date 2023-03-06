@@ -15,7 +15,7 @@ function ProjectForm({
         value={value}
         onChange={(e) => setValue(e.target.value)}
         type="text"
-        placeholder="project name..."
+        placeholder="Project name..."
         autoFocus
       />
       <button
