@@ -6,12 +6,14 @@ import { TodoContext } from "../context";
 import firebase from "../firebase";
 
 function Project({ project, edit }) {
-  // context
+  // Get the TodoContext from the parent component
   const { defaultProject, selectedProject, setSelectedProject } =
     useContext(TodoContext);
-  // state
+
+  // Define a state variable to control whether to show the rename project modal or not
   const [showModal, setShowModal] = useState(false);
 
+  // Define a function to delete a project and all its associated todos
   const deleteProject = (project) => {
     firebase
       .firestore()
@@ -19,6 +21,7 @@ function Project({ project, edit }) {
       .doc(project.id)
       .delete()
       .then(() => {
+        // Delete all todos associated with the deleted project
         firebase
           .firestore()
           .collection("todos")
@@ -31,6 +34,7 @@ function Project({ project, edit }) {
           });
       })
       .then(() => {
+        // If the deleted project was the selected project, reset the selected project to the default project
         if (selectedProject === project.name) {
           setSelectedProject(defaultProject);
         }
@@ -43,6 +47,7 @@ function Project({ project, edit }) {
         {project.name}
       </div>
       <div className="btns">
+        {/* If the component is in edit mode, show edit and delete buttons */}
         {edit ? (
           <div className="edit-delete">
             <span className="edit" onClick={() => setShowModal(true)}>
@@ -58,6 +63,7 @@ function Project({ project, edit }) {
           <div className="total-todos">{project.numOfTodos}</div>
         )}
       </div>
+      {/* Show the RenameProject modal if the showModal state variable is true */}
       <Modal showModal={showModal} setShowModal={setShowModal}>
         <RenameProject project={project} setShowModal={setShowModal} />
       </Modal>

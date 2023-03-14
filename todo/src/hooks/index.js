@@ -1,11 +1,14 @@
+// Importing necessary modules
 import moment from "moment";
 import { useState, useEffect } from "react";
 import firebase from "../firebase";
 
+// Custom hook to fetch all the todos
 export function useTodos() {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
+    // Fetch all the todos from firebase database and set the state
     let unsubscribe = firebase
       .firestore()
       .collection("todos")
@@ -19,12 +22,15 @@ export function useTodos() {
         setTodos(data);
       });
 
+    // Clean up function to unsubscribe from snapshot listener
     return () => unsubscribe();
   }, []);
 
+  // Return the todos
   return todos;
 }
 
+// Custom hook to filter todos based on selected project
 export function useFilterTodos(todos, selectedProject) {
   const [filteredTodos, setFilteredTodos] = useState([]);
 
@@ -32,6 +38,7 @@ export function useFilterTodos(todos, selectedProject) {
     let data;
     const todayDateFormatted = moment().format("DD/MM/YYYY");
 
+    // Filter todos based on selected project
     if (selectedProject === "today") {
       data = todos.filter((todo) => {
         const todoDate = moment(todo.date, "DD/MM/YYYY");
@@ -65,20 +72,25 @@ export function useFilterTodos(todos, selectedProject) {
       data = todos.filter((todo) => todo.projectName === selectedProject);
     }
 
+    // Set the filtered todos state
     setFilteredTodos(data);
   }, [todos, selectedProject]);
 
+  // Return the filtered todos
   return filteredTodos;
 }
 
+// Custom hook to fetch all the projects
 export function useProjects(todos) {
   const [projects, setProjects] = useState([]);
 
+  // Function to calculate the number of todos in a project
   function calculateNumOfTodos(projectName, todos) {
     return todos.filter((todo) => todo.projectName === projectName).length;
   }
 
   useEffect(() => {
+    // Fetch all the projects from firebase database and set the state
     let unsubscribe = firebase
       .firestore()
       .collection("projects")
@@ -95,8 +107,10 @@ export function useProjects(todos) {
         setProjects(data);
       });
 
+    // Clean up function to unsubscribe from snapshot listener
     return () => unsubscribe();
   }, []);
 
+  // Return the projects
   return projects;
 }

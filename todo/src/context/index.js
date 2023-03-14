@@ -1,16 +1,22 @@
 import React, { createContext, useState } from "react";
 import { useTodos, useProjects, useFilterTodos } from "../hooks";
 
+// Create a context object to share data between components
 const TodoContext = createContext();
 
 function TodoContextProvider({ children }) {
+  // Set the default project to "today"
   const defaultProject = "today";
+
+  // Define state variables
   const [selectedProject, setSelectedProject] = useState(defaultProject);
 
+  // Use custom hooks to retrieve and filter todos and projects
   const todos = useTodos();
   const projects = useProjects(todos);
   const filteredTodos = useFilterTodos(todos, selectedProject);
 
+  // Provide the context to child components and pass data as values
   return (
     <TodoContext.Provider
       value={{
@@ -26,4 +32,5 @@ function TodoContextProvider({ children }) {
   );
 }
 
+// Export the context and context provider as named exports
 export { TodoContextProvider, TodoContext };

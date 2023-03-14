@@ -21,6 +21,7 @@ function EditTodo() {
           text={text}
           setText={setText}
           day={day}
+          setDay={setDay}
           time={time}
           setTime={setTime}
           todoProject={todoProject}
