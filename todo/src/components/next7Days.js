@@ -25,12 +25,12 @@ function Next7Days({ todos }) {
     const today = parseInt(moment().format("d"));
 
     // Re-arranging the array so that it starts from today
-    const arrangeDays = sortedTodosByDay
+    const arrangedDays = sortedTodosByDay
       .slice(today)
       .concat(sortedTodosByDay.slice(0, today));
 
     // Setting the state to the newly arranged array
-    setWeekTodos(arrangeDays);
+    setWeekTodos(arrangedDays);
   }, [todos]);
 
   return (
