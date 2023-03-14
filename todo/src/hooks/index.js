@@ -1,3 +1,4 @@
+import moment from "moment";
 import { useState, useEffect } from "react";
 import firebase from "../firebase";
 
@@ -5,7 +6,6 @@ export function useTodos() {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    console.log("Effect called");
     let unsubscribe = firebase
       .firestore()
       .collection("todos")
@@ -23,6 +23,43 @@ export function useTodos() {
   }, []);
 
   return todos;
+}
+
+export function useFilterTodos(todos, selectedProject) {
+  const [filteredTodos, setFilteredTodos] = useState([]);
+
+  useEffect(() => {
+    let data;
+    const todayDateFormatted = moment().format("DD/MM/YYYY");
+
+    if (selectedProject === "today") {
+      data = todos.filter((todo) => {
+        const todoDate = moment(todo.date, "DD/MM/YYYY");
+        const todayDate = moment(todayDateFormatted, "DD/MM/YYYY");
+
+        const diffDays = todoDate.diff(todayDate, "days");
+
+        return diffDays >= 0 && diffDays < 7;
+      });
+    } else if (selectedProject === "next 7 days") {
+      data = todos.filter((todo) => {
+        const todoDate = moment(todo.date, "DD/MM/YYYY");
+        const todayDate = moment(todayDateFormatted, "DD/MM/YYYY");
+
+        const diffDays = todoDate.diff(todayDate, "days");
+
+        return diffDays >= 0 && diffDays < 1;
+      });
+    } else if (selectedProject === "all days") {
+      data = todos;
+    } else {
+      data = todos.filter((todo) => todo.projectName === selectedProject);
+    }
+
+    setFilteredTodos(data);
+  }, [todos, selectedProject]);
+
+  return filteredTodos;
 }
 
 export function useProjects(todos) {
