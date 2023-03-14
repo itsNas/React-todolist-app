@@ -5,11 +5,12 @@ import AddNewProject from "./addNewProject";
 import Project from "./project";
 
 function Projects() {
+  // context
+  const { projects } = useContext(TodoContext);
+  //  state
   const [showMenu, setShowMenu] = useState(true);
   const [edit, setEdit] = useState(false);
   const pencilColor = edit ? "#1EC94C" : "#000000";
-
-  const { projects } = useContext(TodoContext);
 
   return (
     <div className="Projects">

@@ -1,17 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import TodoForm from "./todoForm";
+import { TodoContext } from "../context";
 
 function EditTodo() {
+  // Context
+  const { projects } = useContext(TodoContext);
+  // State
   const [text, setText] = useState();
   const [day, setDay] = useState();
   const [time, setTime] = useState();
   const [todoProject, setTodoProject] = useState();
-
-  const projects = [
-    { id: 1, name: "personal", numOfTodos: 0 },
-    { id: 2, name: "work", numOfTodos: 1 },
-    { id: 3, name: "other", numOfTodos: 2 },
-  ];
 
   function handleSubmit(e) {}
   return (

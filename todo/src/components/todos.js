@@ -4,6 +4,7 @@ import Todo from "./todo";
 import { TodoContext } from "../context";
 
 function Todos() {
+  // context
   const { todos, selectedProject } = useContext(TodoContext);
 
   return (
