@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { useState } from "react";
 import {
   ArrowClockwise,
@@ -16,6 +17,28 @@ function Todo({ todo }) {
     firebase.firestore().collection("todos").doc(todo.id).delete();
   };
 
+  const checkTodo = () => {
+    firebase.firestore().collection("todos").doc(todo.id).update({
+      checked: !todo.checked,
+    });
+  };
+
+  //  Function to repeat the current Todo for the next day
+  const repeatNextDay = (todo) => {
+    const nextDayDate = moment(todo.date, "DD/MM/YYYY").add(1, "days");
+
+    const repeatedTodo = {
+      ...todo,
+      checked: false,
+      date: nextDayDate.format("DD/MM/YYYY"),
+      day: nextDayDate.format("d"),
+    };
+
+    delete repeatedTodo.id;
+
+    firebase.firestore().collection("todos").add(repeatedTodo);
+  };
+
   return (
     <div
       className="Todo"
@@ -24,7 +47,7 @@ function Todo({ todo }) {
     >
       <div className="todo-container">
         {/* Display either a checked or unchecked Circle icon depending on the todo's checked status */}
-        <div className="check-todo">
+        <div className="check-todo" onClick={() => checkTodo(todo)}>
           {todo.checked ? (
             <span className="checked">
               <CheckCircleFill color="#bebebe" />
@@ -47,7 +70,7 @@ function Todo({ todo }) {
           <div className={`line ${todo.checked ? "line-through" : ""}`}></div>
         </div>
         {/* Display an arrow icon if the todo is checked */}
-        <div className="add-to-next-day">
+        <div className="add-to-next-day" onClick={() => repeatNextDay(todo)}>
           {todo.checked && (
             <span>
               <ArrowClockwise />
