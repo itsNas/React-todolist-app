@@ -1,5 +1,10 @@
 import React, { createContext, useState } from "react";
-import { useTodos, useProjects, useFilterTodos } from "../hooks";
+import {
+  useTodos,
+  useProjects,
+  useFilterTodos,
+  useProjectsWithStats,
+} from "../hooks";
 
 // Create a context object to share data between components
 const TodoContext = createContext();
@@ -15,6 +20,7 @@ function TodoContextProvider({ children }) {
   const todos = useTodos();
   const projects = useProjects(todos);
   const filteredTodos = useFilterTodos(todos, selectedProject);
+  const projectsWithStats = useProjectsWithStats(projects, todos);
 
   // Provide the context to child components and pass data as values
   return (
@@ -24,7 +30,7 @@ function TodoContextProvider({ children }) {
         selectedProject,
         setSelectedProject,
         todos: filteredTodos,
-        projects,
+        projects: projectsWithStats,
       }}
     >
       {children}

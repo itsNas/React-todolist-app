@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Pencil, XCircle } from "react-bootstrap-icons";
+import { Pencil, Trash } from "react-bootstrap-icons";
 import RenameProject from "./renameProject";
 import Modal from "./modal";
 import { TodoContext } from "../context";
@@ -54,7 +54,7 @@ function Project({ project, edit }) {
               <Pencil size={13} />
             </span>
             <span className="delete" onClick={() => deleteProject(project)}>
-              <XCircle size={13} />
+              <Trash size={13} />
             </span>
           </div>
         ) : project.numOfTodos === 0 ? (
