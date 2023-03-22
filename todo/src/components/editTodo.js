@@ -6,14 +6,15 @@ import firebase from "../firebase";
 
 function EditTodo() {
   // STATE
-  const [text, setText] = useState("");
-  const [day, setDay] = useState(new Date());
-  const [time, setTime] = useState(new Date());
-  const [todoProject, setTodoProject] = useState("");
+  const [text, setText] = useState(""); // State for the todo text
+  const [day, setDay] = useState(new Date()); // State for the selected day
+  const [time, setTime] = useState(new Date()); // State for the selected time
+  const [todoProject, setTodoProject] = useState(""); // State for the selected project
 
   // CONTEXT
-  const { selectedTodo, projects } = useContext(TodoContext);
+  const { selectedTodo, projects } = useContext(TodoContext); // Accessing state variables from the context
 
+  // Effect to update the state when the selectedTodo changes
   useEffect(() => {
     if (selectedTodo) {
       setText(selectedTodo.text);
@@ -23,6 +24,7 @@ function EditTodo() {
     }
   }, [selectedTodo]);
 
+  // Effect to update the todo item in the database when any of the state variables change
   useEffect(() => {
     if (selectedTodo) {
       firebase
@@ -39,7 +41,11 @@ function EditTodo() {
     }
   }, [text, day, time, todoProject]);
 
-  function handleSubmit(e) {}
+  // Function to handle form submission
+  function handleSubmit(e) {
+    // To be implemented
+  }
+
   return (
     <div>
       {selectedTodo && (
