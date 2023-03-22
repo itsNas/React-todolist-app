@@ -15,6 +15,7 @@ function TodoContextProvider({ children }) {
 
   // Define state variables
   const [selectedProject, setSelectedProject] = useState(defaultProject);
+  const [selectedTodo, setSelectedTodo] = useState(undefined);
 
   // Use custom hooks to retrieve and filter todos and projects
   const todos = useTodos();
@@ -31,6 +32,8 @@ function TodoContextProvider({ children }) {
         setSelectedProject,
         todos: filteredTodos,
         projects: projectsWithStats,
+        selectedTodo,
+        setSelectedTodo,
       }}
     >
       {children}

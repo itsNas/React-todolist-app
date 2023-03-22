@@ -1,16 +1,28 @@
 import moment from "moment";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   ArrowClockwise,
   CheckCircleFill,
   Circle,
   Trash,
 } from "react-bootstrap-icons";
+import { TodoContext } from "../context";
 import firebase from "../firebase";
 
 function Todo({ todo }) {
+  // Context
+  const { selectedTodo, setSelectedTodo } = useContext(TodoContext);
+
   // State variable to keep track of whether the mouse is hovering over the Todo
   const [hover, setHover] = useState(false);
+
+  const handleDelete = () => {
+    deleteTodo(todo);
+
+    if (selectedTodo === todo) {
+      setSelectedTodo(undefined);
+    }
+  };
 
   // Function to delete the current Todo from the Firebase database
   const deleteTodo = () => {
@@ -59,7 +71,7 @@ function Todo({ todo }) {
           )}
         </div>
         {/* Display the todo's text, time, and project name */}
-        <div className="text">
+        <div className="text" onClick={() => setSelectedTodo(todo)}>
           <p style={{ color: todo.checked ? "#bebebe" : "#000000" }}>
             {todo.text}
           </p>
@@ -78,7 +90,7 @@ function Todo({ todo }) {
           )}
         </div>
         {/* Display a trash icon if the mouse is hovering over the Todo or if the Todo is checked */}
-        <div className="delete-todo" onClick={() => deleteTodo(todo)}>
+        <div className="delete-todo" onClick={() => handleDelete(todo)}>
           {(hover || todo.checked) && (
             <span>
               <Trash />
