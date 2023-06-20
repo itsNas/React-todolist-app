@@ -16,9 +16,33 @@
 
 /* Sidebar */
 .Sidebar {
-  width: 300px;
+  width: 500px;
   min-width: 210px;
   height: 100%;
+  transition: transform 10s ease-in-out;
+  transform: translateX(-100%);
+}
+
+.sidebar-hidden {
+  transform: translateX(0%);
+  display: none;
+}
+
+.menu {
+  cursor: pointer;
+  font-size: 2rem;
+  padding: 1rem;
+}
+
+.menu-hidden {
+  display: none;
+}
+
+.close-button {
+  font-size: larger;
+  text-align: end;
+  padding: 0.2rem;
+  cursor: pointer;
 }
 
 /* Main */

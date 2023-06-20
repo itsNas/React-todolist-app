@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef } from "react";
 import { TodoContext } from "../context";
+import { X } from "react-bootstrap-icons";
 
 function Sidebar({ children }) {
   // CONTEXT
@@ -24,7 +25,7 @@ function Sidebar({ children }) {
   };
 
   return (
-    <div className="Sidebar" ref={sidebarRef}>
+    <div className="sidebar" ref={sidebarRef}>
       {children}
     </div>
   );
